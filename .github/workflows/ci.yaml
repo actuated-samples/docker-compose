@@ -20,9 +20,18 @@ jobs:
           docker-compose build
       - name: Start up compose stack
         run: |
+          docker-compose pull
           docker-compose up -d
+
+          # Sleep for 5 seconds to allow containers to start
+          sleep 5
       - name: Curl microservice 3 times
         run: |
+
+          # Check status first:
+          docker-compose ps
+
+          # Then curl 3 times, incrementing the Redis counter each time:
           curl -s http://127.0.0.1:8080
           curl -s http://127.0.0.1:8080
           curl -s http://127.0.0.1:8080 -o final-curl.txt
