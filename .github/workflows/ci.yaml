@@ -1,0 +1,31 @@
+name: build
+
+on:
+  push:
+    branches:
+    - '*'
+  pull_request:
+    branches:
+    - '*'
+
+jobs:
+  build:
+    runs-on: actuated
+    steps:
+      - uses: actions/checkout@master
+        with:
+          fetch-depth: 1
+      - name: Build with compose
+        run: |
+          docker-compose build
+      - name: Start up compose stack
+        run: |
+          docker-compose up -d
+      - name: Curl microservice 3 times
+        run: |
+          curl -s http://127.0.0.1:8080
+          curl -s http://127.0.0.1:8080
+          curl -s http://127.0.0.1:8080 -o final-curl.txt
+          grep ./final-curl.txt "I have been seen 3 times"
+          # If this fails, we'll get an exit code non-zero and this step will fail
+ 
