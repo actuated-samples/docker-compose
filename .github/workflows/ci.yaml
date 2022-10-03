@@ -35,6 +35,6 @@ jobs:
           curl -s http://127.0.0.1:8080
           curl -s http://127.0.0.1:8080
           curl -s http://127.0.0.1:8080 -o final-curl.txt
-          grep ./final-curl.txt "I have been seen 3 times"
+          grep "I have been seen 3 times" ./final-curl.txt
           # If this fails, we'll get an exit code non-zero and this step will fail
  
